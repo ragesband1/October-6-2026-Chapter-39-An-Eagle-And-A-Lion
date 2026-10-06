@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Chapter 39: An Eagle And A Lion</title>
+<style>
+body{margin:0;overflow:hidden;background:#0a140a;font-family:Impact,Arial Black,sans-serif;color:#e0f2d0}
+#story{position:absolute;inset:0;z-index:999;background:#0a140a;overflow-y:auto;padding:22px;pointer-events:all}
+.hud{position:absolute;background:rgba(10,25,5,0.92);border:2px solid #ff9800;padding:10px;border-radius:12px;pointer-events:all;font-family:monospace}
+#hudTopLeft{top:10px;left:10px;width:380px;border-color:#ffb74d}
+#hudTopRight{top:10px;right:10px;width:390px;border-color:#4fc3f7}
+#hudBottom{bottom:10px;left:10px;width:460px;display:none;max-height:340px;overflow-y:auto}
+#hudMap{bottom:10px;right:10px;width:180px;height:180px}
+.bar{width:100%;height:18px;background:#1a2f0f;border:1px solid #ff9800;margin:4px 0;overflow:hidden}
+.fill{height:100%;transition:width 0.3s}
+#hp{background:linear-gradient(90deg,#bf360c,#ff7043);width:100%}
+#flight{background:linear-gradient(90deg,#0277bd,#4fc3f7);width:100%}
+#trust{background:linear-gradient(90deg,#2e7d32,#81c784);width:60%}
+#xpBar{background:linear-gradient(90deg,#ff8f00,#ffd54f);width:0%}
+#skillTree{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:740px;background:#111f0a;border:3px solid #ff9800;padding:22px;display:none;z-index:90;pointer-events:all;border-radius:14px}
+button{background:#2a3a15;color:#fff;border:1px solid #ff9800;padding:8px 13px;margin:4px;cursor:pointer;border-radius:6px;font-weight:bold}
+button:hover{background:#4a5a25;color:#ffeb3b}
+#centerMark{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:20px;color:#ff9800;pointer-events:none;text-shadow:0 0 6px #000}
+</style>
+<script type="importmap">{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js"}}</script>
+</head>
+<body>
+
+<div id="story">
+<h1 style="text-align:center;color:#ff9800">Chapter 39: Bedtime Stories<br>April 2 2020<br>An Eagle And A Lion<br>From the creations of Happy True Friends With Aesop And "The Rages Band"</h1>
+<div style="max-width:920px;margin:auto;background:#14200a;padding:22px;border:2px solid #ff9800;white-space:pre-wrap;line-height:1.85;font-family:Georgia,serif">
+Once upon a time there lived in a wild jungle. With a deep forest there is an animal came unto it. An animals in the first place called "An Eagle And A Lion". Now as they we're just best friends for the last 3 years ago. Eagle knows that this lion can't betray him as a friend. While in the secret plan Lion pretends to become best friends of an Eagle. Even they are best friends but suddenly not. After seeing each other's thoughts. "An Eagle And A Lion" meet their own place once again in the wild jungle and suddenly talk. Eagle said, You there Lion are you consistent to become my friend in past 3 years. Lion said, well yes sure! Of course I can't betray in this conversation let's have again our next topic. After changing the discussion. Lion wants to play with an Eagle. But that Eagle didn't know the plan is already done. So in this case Lion that Eagle didn't know is that they must won the race in the wild jungle with no animals came there to watch them in the marathon or a race. Lion said, Are you ready Eagle. Eagle said, yes. Then therefore they already planned to go running. The Lion runs the race unfortunately while the Lion is running. The Lion is so hungry that it would eat an Eagle instead. An Eagle also saw the nature of the soul of a Lion. Eagle knows now the Lion is a betrayal and fake friend for the last 3 years. An Eagle and the Lion when they are already in a finished line. An Eagle stopped running with it's feathers. Then suddenly the Lion can't ate already an Eagle. Because an Eagle is fast escape with the Lion's sharp teeth. And Because an Eagle knows the Lion is not a friend. It's a carnivore friend who kills an animal host. So the Lion there bumped it's own head with a tree trunk and suddenly goes at the end of the cliff of a wild jungle. Then fall down stabbed by the sharp pointed rocks. As the story ends An Eagle never complains with an inevitable different kind friend of carnivores like a Lion anymore. But became friends with the next is the Kangaroo. Because Kangaroo only eats a plants called herbivores while an Eagle eats only a small creatures not like just a Lion who eats all meat. But Eagle only eats not huge meat but only small. As they meet together Kangaroo accept an Eagle as a true friend with no betrayals like sharp teeth and claws of a Lion. And they brought peace to avenge the stupid friend called a lion. Moral Lesson: Whenever you want to accept the destiny of having. You need to think first the identity of a friend if it is true or fake. Sometimes if we fail accepting him/her. And this is a true friend. At the end of the day you'll regret that you lose a friend. Choose wisely a loyal friend not temporary or with limited friend but permanent or endless accepting a trustful commitment to a faithful friend and that's the meaning of best friend.
+</div>
+<center style="margin:24px">
+<p><b>UNIQUE GENRE: Jungle Marathon - Flight vs Ground Race + Betrayal Escape</b><br>You are Eagle! Race Lion for 3 years friendship test! Lion will try to EAT you at finish line! Escape by flying! New true friend Kangaroo herbivore!</p>
+<p>Controls: WASD Move / Fly | SPACE Fly Up | SHIFT Dive / Sprint | F Camera Eagle Eye / Third Person | E Talk | Q Inventory | K Skills | R Feather Escape</p>
+<button onclick="startGame()" style="font-size:26px;background:#ff9800;color:#000;padding:18px 50px;border-radius:10px">START RACE IN WILD JUNGLE</button>
+</center>
+</div>
+
+<div class="hud" id="hudTopLeft">
+<b>PLAYER CHARACTER - Eagle And Lion</b><br>
+Choose: <select id="charPick" onchange="switchChar()"><option>Eagle - True Friend - Fast Escape - Eats Small Creatures</option><option>Lion - Fake Friend 3 Years - Carnivore - Sharp Teeth</option><option>Kangaroo - Herbivore - Loyal Permanent Friend</option></select> Level <span id="lv">1</span>
+<div>Health - Feather / Mane</div><div class="bar"><div id="hp" class="fill"></div></div>
+<div>Flight Power - Eagle Wings / Lion Sprint</div><div class="bar"><div id="flight" class="fill"></div></div>
+<div>Trust Meter - True or Fake Friend?</div><div class="bar"><div id="trust" class="fill"></div></div>
+<div>Best Friend XP</div><div class="bar"><div id="xpBar" class="fill"></div></div>
+<div>Race: <span id="race">0%</span> | Friendship: <span id="friendYears">3 Years</span> | SPD:<span id="spd">11</span> WIS:<span id="wis">9</span> DEF:<span id="def">6</span></div>
+</div>
+
+<div class="hud" id="hudTopRight">
+<b id="questMain">MAIN QUEST: An Eagle And A Lion - 3 Years Friendship</b><div id="questDesc">You are Eagle! Lion pretends to be best friend for 3 years! Lion says: Let's race in wild jungle with no animals watching! But secret plan: Lion is hungry and wants to eat you at finish line! Use feathers to escape!</div><hr>
+<div id="questSide" style="font-size:11px"></div>
+</div>
+
+<div class="hud" id="hudBottom">
+<h3>INVENTORY & EQUIPMENT - Jungle Race Gear</h3>
+<div id="invContent">
+- Eagle Feathers [Equipped] Flight +5 Escape +10<br>
+- Lion Sharp Teeth [Enemy Item] Carnivore Damage +8<br>
+- Lion Claws [Enemy Item] Betrayal Damage<br>
+- Tree Trunk - Where Lion bumps head [Obstacle]<br>
+- Cliff With Sharp Pointed Rocks - Lion Falls [Finisher]<br>
+- Small Creatures - Eagle Food [Consumable] HP +15<br>
+- Plants - Kangaroo Herbivore Food [Loyal Friend Item]<br>
+- 3 Years Friendship Badge [Quest Item] Trust +10<br>
+</div>
+<button onclick="useFeather()">Use Feather Escape - Press R - Fast Escape From Lion Teeth</button><button onclick="eatSmall()">Eagle Eat Small Creatures HP +15</button><button onclick="this.parentElement.style.display='none'">Close Q</button>
+</div>
+
+<div class="hud" id="hudMap"><canvas id="mini" width="160" height="160"></canvas><center>MINI-MAP<br>Wild Jungle Marathon<br>Finish Line = Cliff</center></div>
+<div id="centerMark">EAGLE EYE</div>
+
+<div id="skillTree">
+<h2>PROGRESSION & SKILL TREE - Best Friend Wisdom</h2>Skill Points: <span id="sp">1</span><br>
+<button onclick="learn('flight')">FLIGHT MASTERY Level 1 - Eagle fast escape with feathers Flight +8</button><br>
+<button onclick="learn('detect')">BETRAYAL DETECT Level 1 - See soul of Lion - knows fake friend WIS +7 Trust +15</button><br>
+<button onclick="learn('loyal')">LOYAL FRIEND Level 1 - Choose wisely permanent not temporary DEF +6 Trust +20</button><br>
+<button onclick="learn('herbivore')">HERBIVORE FRIEND Level 1 - Kangaroo eats plants - True friend no sharp teeth XP x2</button><br>
+<button onclick="learn('carnivore')">CARNIVORE KNOWLEDGE Level 1 - Lion eats all meat - Know identity of fake friend ATK +5</button><br>
+<button onclick="learn('race')">MARATHON WINNER Level 1 - Win race with no animals watching SPD +7</button><br>
+<div id="skillLog" style="color:#ffcc80;margin-top:10px"></div><button onclick="document.getElementById('skillTree').style.display='none'">Close K</button>
+</div>
+
+<script type="module">
+import * as THREE from 'three';
+let scene,camera,renderer,player,keys={},firstPerson=false,active=false,elapsed=0;
+let STAT={hp:100,maxHP:100,flight:100,trust:60,xp:0,lv:1,race:0,spd:11,wis:9,def:6,sp:1,isEagle:true};
+let npcs=[],enemies=[],trees=[],raceLine=null;
+window.startGame=()=>{document.getElementById('story').style.display='none';init();}
+window.switchChar=()=>{
+ let v=document.getElementById('charPick').value;
+ if(v.includes('Eagle')){STAT.isEagle=true; STAT.spd=11; STAT.wis=9; player.children[0].material.color.set(0x4d2600);}
+ if(v.includes('Lion')){STAT.isEagle=false; STAT.spd=9; STAT.def=8; player.children[0].material.color.set(0xffb74d);}
+ if(v.includes('Kangaroo')){STAT.isEagle=true; STAT.spd=10; STAT.def=7; STAT.trust=85; player.children[0].material.color.set(0x8d6e63);}
+ updateBars();
+}
+function init(){
+ active=true;
+ scene=new THREE.Scene(); scene.background=new THREE.Color(0x0d1a05); scene.fog=new THREE.Fog(0x0d1a05,15,70);
+ camera=new THREE.PerspectiveCamera(72,innerWidth/innerHeight,0.1,1000); renderer=new THREE.WebGLRenderer({antialias:true}); renderer.setSize(innerWidth,innerHeight); document.body.appendChild(renderer.domElement);
+ scene.add(new THREE.AmbientLight(0xccff90,0.9)); let dl=new THREE.DirectionalLight(0xffffcc,0.9); dl.position.set(12,20,10); scene.add(dl);
+ // 3D WORLD - Wild Jungle Deep Forest
+ let ground=new THREE.Mesh(new THREE.PlaneGeometry(140,140), new THREE.MeshStandardMaterial({color:0x1b3a0f})); ground.rotation.x=-Math.PI/2; scene.add(ground);
+ // Race track
+ for(let i=0;i<40;i++){let marker=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.1,4), new THREE.MeshStandardMaterial({color:i%2==0?0xffffff:0xff9800})); marker.position.set(0,0.05,-20 - i*2.2); scene.add(marker);}
+ // Trees for Lion to bump head
+ for(let i=0;i<18;i++){
+   let trunk=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.6,6), new THREE.MeshStandardMaterial({color:0x3e2723}));
+   let x=(Math.random()-0.5)*30; let z=-5 - Math.random()*90;
+   trunk.position.set(x,3,z); scene.add(trunk); trees.push(trunk);
+   let leaves=new THREE.Mesh(new THREE.SphereGeometry(2,6,6), new THREE.MeshStandardMaterial({color:0x2e7d32})); leaves.position.set(x,7,z); scene.add(leaves);
+ }
+ // Cliff at finish line with sharp rocks
+ let cliff=new THREE.Mesh(new THREE.BoxGeometry(50,10,4), new THREE.MeshStandardMaterial({color:0x4e342e})); cliff.position.set(0,0,-110); scene.add(cliff);
+ for(let i=0;i<12;i++){let rock=new THREE.Mesh(new THREE.ConeGeometry(0.6,2.5,5), new THREE.MeshStandardMaterial({color:0x212121})); rock.position.set((Math.random()-0.5)*40,-1,-115); scene.add(rock);}
+ raceLine=cliff;
+ // Player Eagle
+ let pg=new THREE.Group();
+ let bodyMat=new THREE.MeshStandardMaterial({color:0x4d2600});
+ let body=new THREE.Mesh(new THREE.CapsuleGeometry(0.45,1,4,8), bodyMat); body.position.y=1; pg.add(body);
+ let wingL=new THREE.Mesh(new THREE.BoxGeometry(1.4,0.15,0.7), new THREE.MeshStandardMaterial({color:0x3e2723})); wingL.position.set(-0.9,1.2,0); pg.add(wingL);
+ let wingR=wingL.clone(); wingR.position.set(0.9,1.2,0); pg.add(wingR);
+ pg.position.set(0,1,15); scene.add(pg); player=pg; player.userData={vy:0,isFlying:false};
+ // NPCs
+ spawnNPC(-8,0,8,"Lion - Fake Friend 3 Years","Well yes sure! Of course I can't betray! Let's have next topic! Are you ready Eagle? Let's race!","lion");
+ spawnNPC(8,0,8,"Kangaroo - Herbivore True Friend","I only eat plants. I accept Eagle as true friend with no betrayals like sharp teeth and claws of Lion. Peace!","kangaroo");
+ spawnNPC(-12,0,0,"Jungle Animals Watching","No animals came to watch marathon. Only you two! Be careful!","animals");
+ // Enemies & Bosses - Unique to this story
+ spawnEnemy(0,0,-25,"Lion Race Runner - Hungry Carnivore",false,80);
+ spawnEnemy(5,0,-45,"Betrayal Soul - Fake Friend Aura",false,65);
+ spawnEnemy(-5,0,-65,"Sharp Teeth Bite - Lion Wants To Eat Eagle",true,120);
+ spawnEnemy(0,0,-85,"Tree Trunk Bump - Lion Bumps Head",false,60);
+ spawnEnemy(0,0,-105,"Cliff Fall Boss - Lion Falls On Sharp Rocks",true,180);
+ addEventListener('keydown',e=>{
+   keys[e.key.toLowerCase()]=true; let k=e.key.toLowerCase();
+   if(k=='f')firstPerson=!firstPerson;
+   if(k=='q'){let el=document.getElementById('hudBottom'); el.style.display=el.style.display=='none'?'block':'none';}
+   if(k=='k'){let el=document.getElementById('skillTree'); el.style.display=el.style.display=='none'?'block':'none';}
+   if(k=='e')interact();
+   if(k=='r')useFeather();
+   if(k==' ') {player.userData.isFlying=true; player.userData.vy=0.18;}
+ });
+ addEventListener('keyup',e=>{keys[e.key.toLowerCase()]=false; if(e.key.toLowerCase()==' ') player.userData.isFlying=false;});
+ addEventListener('mousedown',()=>{if(active)featherAttack();});
+ addEventListener('mousemove',e=>{if(active&&document.pointerLockElement)player.rotation.y-=e.movementX*0.0025;});
+ renderer.domElement.addEventListener('click',()=>renderer.domElement.requestPointerLock());
+ animate(); updateQuests(); updateBars();
+}
+function spawnNPC(x,y,z,name,line,type){let g=new THREE.Group(); let col=type=='lion'?0xffb74d:type=='kangaroo'?0x8d6e63:0x81c784; let m=new THREE.Mesh(new THREE.CapsuleGeometry(0.38,1,4,8), new THREE.MeshStandardMaterial({color:col})); m.position.y=0.8; g.add(m); g.position.set(x,0,z); g.userData={name,line,type}; scene.add(g); npcs.push(g);}
+function spawnEnemy(x,y,z,name,boss,hp){let g=new THREE.Group(); let col=boss?0xd32f2f:0xbf360c; let m=new THREE.Mesh(new THREE.BoxGeometry(boss?1.2:0.9,boss?1.8:1.1,0.9), new THREE.MeshStandardMaterial({color:col})); m.position.y=boss?0.9:0.55; g.add(m); g.position.set(x,0,z); g.userData={hp,max:hp,boss,name}; scene.add(g); enemies.push(g);}
+function interact(){
+ npcs.forEach(n=>{
+   if(n.position.distanceTo(player.position)<3.5){
+     document.getElementById('questDesc').innerText=n.userData.name+": "+n.userData.line;
+     if(n.userData.type=='lion'){STAT.trust=Math.max(0,STAT.trust-20); document.getElementById('questMain').innerText="WARNING: Lion pretends! Secret plan to eat you!"; STAT.xp+=30;}
+     if(n.userData.type=='kangaroo'){STAT.trust=Math.min(100,STAT.trust+25); STAT.xp+=40; document.getElementById('questMain').innerText="NEW TRUE FRIEND: Kangaroo herbivore accepts Eagle! No betrayal!";}
+     updateQuests();
+   }
+ });
+}
+function featherAttack(){
+ enemies.forEach(en=>{
+   if(en.position.distanceTo(player.position)<4){
+     en.userData.hp-=STAT.spd*1.5+STAT.wis;
+     en.children[0].material.color.set(0xffffff); setTimeout(()=>en.children[0].material.color.set(en.userData.boss?0xd32f2f:0xbf360c),150);
+     if(en.userData.hp<=0){scene.remove(en); enemies=enemies.filter(e=>e!=en); STAT.xp+=en.userData.boss?110:45; STAT.race+=en.userData.boss?25:12; if(en.userData.name.includes('Cliff')){document.getElementById('questMain').innerText="Lion fell on sharp rocks! Eagle escaped with feathers!";} if(enemies.length==0)winGame(); updateQuests();}
+   }
+ });
+}
+window.useFeather=()=>{
+ if(STAT.flight<15){alert("No flight power! Need plants and rest!"); return;}
+ STAT.flight-=18; player.userData.vy=0.28; STAT.race+=8; STAT.xp+=15;
+ document.getElementById('questDesc').innerText="Feather Escape! Eagle fast escape with feathers from Lion sharp teeth! You stopped running with feathers! Lion cannot eat you!";
+ document.getElementById('invContent').innerHTML+="<br>[USED Feather Escape] Flight -18 Race +8%";
+ updateBars(); updateQuests();
+}
+window.eatSmall=()=>{STAT.hp=Math.min(STAT.maxHP,STAT.hp+15); STAT.flight=Math.min(100,STAT.flight+12); document.getElementById('invContent').innerHTML+="<br>[ATE Small Creatures] HP +15 Flight +12"; updateBars();}
+window.learn=(skill)=>{
+ if(STAT.sp<=0)return; STAT.sp--; document.getElementById('sp').innerText=STAT.sp; let log=document.getElementById('skillLog');
+ if(skill=='flight'){STAT.spd+=5; STAT.flight=Math.min(100,STAT.flight+30); log.innerHTML+="FLIGHT MASTERY Flight +8<br>";}
+ if(skill=='detect'){STAT.wis+=7; STAT.trust=Math.min(100,STAT.trust+15); log.innerHTML+="BETRAYAL DETECT WIS +7 Trust +15<br>";}
+ if(skill=='loyal'){STAT.def+=6; STAT.trust=Math.min(100,STAT.trust+20); log.innerHTML+="LOYAL FRIEND DEF +6 Trust +20<br>";}
+ if(skill=='herbivore'){STAT.xp+=80; log.innerHTML+="HERBIVORE FRIEND XP x2 - Kangaroo true friend<br>";}
+ if(skill=='carnivore'){STAT.spd+=3; STAT.wis+=2; log.innerHTML+="CARNIVORE KNOWLEDGE ATK +5 - Know fake friend<br>";}
+ if(skill=='race'){STAT.spd+=7; STAT.race+=10; log.innerHTML+="MARATHON WINNER SPD +7 Race +10%<br>";}
+ updateBars();
+}
+function updateQuests(){
+ let side=document.getElementById('questSide');
+ side.innerHTML=`- Race Track: ${STAT.race}% to finish line cliff (110 meters)<br>- Enemies: Lion Runner, Sharp Teeth, Cliff Fall Boss (${enemies.length} left)<br>- Trust Meter: ${STAT.trust}% - If low, Lion is fake friend! If high, Kangaroo true friend!<br>- Moral: Choose wisely loyal friend not temporary but permanent faithful<br>- Finish line: Cliff with sharp pointed rocks - Lion falls if you escape`;
+ document.getElementById('race').innerText=STAT.race+"%"; document.getElementById('friendYears').innerText="3 Years - Trust "+STAT.trust+"%";
+ if(STAT.xp>=100){STAT.lv++; STAT.xp=0; STAT.sp++; STAT.maxHP+=14; STAT.hp=STAT.maxHP; document.getElementById('lv').innerText=STAT.lv; document.getElementById('sp').innerText=STAT.sp; document.getElementById('skillLog').innerHTML+=`LEVEL UP Level ${STAT.lv}<br>`;}
+}
+function updateBars(){
+ document.getElementById('hp').style.width=STAT.hp/STAT.maxHP*100+"%";
+ document.getElementById('flight').style.width=STAT.flight+"%";
+ document.getElementById('trust').style.width=STAT.trust+"%";
+ document.getElementById('xpBar').style.width=STAT.xp+"%";
+ document.getElementById('spd').innerText=STAT.spd; document.getElementById('wis').innerText=STAT.wis; document.getElementById('def').innerText=STAT.def;
+}
+function winGame(){
+ document.getElementById('questMain').innerText="EAGLE WINS! LION FALLS ON CLIFF!";
+ document.getElementById('questDesc').innerHTML="Eagle stopped running with feathers! Escaped Lion sharp teeth! Lion bumped head with tree trunk and fell at end of cliff stabbed by sharp pointed rocks!<br><b>Moral: Think identity of friend if true or fake. Choose wisely loyal permanent faithful friend, not temporary! Kangaroo herbivore is true friend!</b>";
+ setTimeout(()=>alert("YOU WIN Chapter 39!\n\nEagle escaped Lion!\nLion fell on sharp rocks cliff!\nNew friend Kangaroo herbivore!\n\nMoral: Choose loyal faithful best friend!"),900);
+}
+function animate(){
+ if(!active)return; requestAnimationFrame(animate);
+ elapsed+=0.02;
+ let moveSpeed=0.12+STAT.spd*0.011;
+ if(keys['shift']){moveSpeed*=1.8; STAT.flight=Math.max(0,STAT.flight-0.5);} else {if(STAT.flight<100&&!player.userData.isFlying)STAT.flight+=0.15;}
+ if(keys['w'])player.translateZ(-moveSpeed); if(keys['s'])player.translateZ(moveSpeed*0.6); if(keys['a'])player.translateX(-moveSpeed*0.7); if(keys['d'])player.translateX(moveSpeed*0.7);
+ // Flight
+ player.userData.vy-=0.011; player.position.y+=player.userData.vy;
+ if(player.position.y<=1){player.position.y=1; player.userData.vy=0; player.userData.isFlying=false;}
+ if(player.position.y>9)player.position.y=9;
+ if(keys['w'])STAT.race=Math.min(100,Math.max(0, (15-player.position.z)/1.25));
+ // Enemies chase - Lion wants to eat
+ enemies.forEach(en=>{
+   if(en.position.distanceTo(player.position)<16){
+     en.lookAt(player.position); let dir=new THREE.Vector3().subVectors(player.position,en.position).normalize().multiplyScalar(en.userData.boss?0.028:0.019); en.position.add(dir);
+     if(en.position.distanceTo(player.position)<1.6){STAT.hp-=0.28; STAT.trust=Math.max(0,STAT.trust-0.15);}
+   }
+ });
+ if(firstPerson){camera.position.copy(player.position).add(new THREE.Vector3(0,0.9,0.2));} else {let off=new THREE.Vector3(0,5,10.5).applyQuaternion(player.quaternion); camera.position.copy(player.position).add(off); camera.lookAt(player.position.clone().add(new THREE.Vector3(0,1,0)));}
+ let ctx=document.getElementById('mini').getContext('2d'); ctx.clearRect(0,0,160,160); ctx.fillStyle="#0a140a"; ctx.fillRect(0,0,160,160);
+ ctx.strokeStyle="#ff9800"; ctx.strokeRect(5,5,150,120);
+ ctx.fillStyle="#ffb74d"; ctx.fillRect(80+player.position.x,80+player.position.z+40,7,7);
+ enemies.forEach(en=>{ctx.fillStyle=en.userData.boss?"#d32f2f":"#bf360c"; ctx.fillRect(80+en.position.x,80+en.position.z+40,5,5);});
+ npcs.forEach(np=>{ctx.fillStyle=np.userData.type=='lion'?"#ff8f00":"#8d6e63"; ctx.fillRect(80+np.position.x,80+np.position.z+40,4,4);});
+ trees.forEach(t=>{ctx.fillStyle="#2e7d32"; ctx.fillRect(80+t.position.x,80+t.position.z+40,2,2);});
+ ctx.fillStyle="#212121"; ctx.fillRect(20,125,120,6);
+ if(STAT.hp<=0){alert("Eagle caught by Lion sharp teeth! Moral: Choose wisely true friend! Know fake friend identity!"); location.reload();}
+ updateBars(); renderer.render(scene,camera);
+}
+</script>
+</body>
+</html>
